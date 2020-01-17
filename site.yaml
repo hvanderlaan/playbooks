@@ -47,7 +47,7 @@
 
     - name: facts -> ensure local facts file is present
       file:
-        path: /etc/ansible.facts.d/managed.fact
+        path: /etc/ansible/facts.d/managed.fact
         state: touch
       register: factsfile
       when: factsdir.changed
