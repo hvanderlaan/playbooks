@@ -46,9 +46,16 @@
       register: factsdir
 
     - name: facts -> ensure local facts file is present
+      file:
+        path: /etc/ansible.facts.d/managed.fact
+        stateL touch
+      register: factsfile
+      when: factsdir.changed
+
+    - name: facts -> ensure local facts file is present
       blockinfile:
         path: /etc/ansible/facts.d/managed.fact
         block: |
           [defaults]
           ansible = true
-      when: factsdir.changed
+      when: factsdir.changed and factsfile.changed
