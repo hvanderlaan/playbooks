@@ -2,8 +2,8 @@
 # vi: ft=yaml.ansible
 
 # ============================================================================ #
-# File   : site.yaml                                                           #
-# Purpose: Configure systems to use ansible or awx                             #
+# File   : Debian/install-packages.yaml                                        #
+# Purpose: Installing default set of packages                                  #
 #                                                                              #
 # Author : Harald van der Laan                                                 #
 # Date   : 2020-01-17                                                          #
@@ -34,35 +34,9 @@
 # ============================================================================ #
 
 ---
-- hosts: all
-  gather_facts: false
-  become: true
-
-  tasks:
-    - name: facts -> ensure local facts directory is present
-      file:
-        path: /etc/ansible/facts.d
-        state: directory
-      register: factsdir
-
-    - name: facts -> ensure local facts file is present
-      file:
-        path: /etc/ansible/facts.d/managed.fact
-        state: touch
-      register: factsfile
-      when: factsdir.changed
-
-    - name: facts -> ensure local facts file is present
-      blockinfile:
-        path: /etc/ansible/facts.d/managed.fact
-        block: |
-          [defaults]
-          ansible = true
-      when: factsdir.changed and factsfile.changed
-
-    - name: gather_facts:
-      setup:
-
-    - name: include -> install-packages.yaml
-      include: Debian/install-packages.yaml
-      when: ansible_os_family == 'Debian'
+- name: apt -> ensure apt repository is up to date
+  apt:
+    update_cache: true
+    cache_valid_time: 86400
+    name: ['aptitude', 'cult', 'zsh', 'git', 'vim']
+    state: present
