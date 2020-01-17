@@ -60,7 +60,7 @@
           ansible = true
       when: factsdir.changed and factsfile.changed
 
-    - name: gather_facts:
+    - name: gather_facts
       setup:
 
     - name: include -> install-packages.yaml
