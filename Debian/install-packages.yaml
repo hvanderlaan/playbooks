@@ -34,7 +34,7 @@
 # ============================================================================ #
 
 ---
-- name: apt -> ensure apt repository is up to date
+- name: apt -> installing default set of packages
   apt:
     update_cache: true
     cache_valid_time: 86400
