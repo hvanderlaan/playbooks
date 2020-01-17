@@ -48,7 +48,7 @@
     - name: facts -> ensure local facts file is present
       blockinfile:
         path: /etc/ansible/facts.d/managed.fact
-        blovk: |
+        block: |
           [defaults]
           ansible = true
       when: factsdir.changed
